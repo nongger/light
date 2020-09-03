@@ -1,0 +1,6 @@
+hello caroline -1 darren
+
+Lambda 表达式在Java 语言中引入了一个新的语法元素和操作符。这个操作符为 “->” ， 该操作符被称
+为 Lambda 操作符或箭头操作符。它将 Lambda 分为两个部分：
+左侧：指定了 Lambda 表达式需要的所有参数
+右侧：指定了 Lambda 体，即 Lambda 表达式要执行的功能。

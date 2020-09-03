@@ -1,0 +1,50 @@
+swagger-ui.html
+
+一、InetAddress
+通讯要素1：IP 和 端口号
+IP 地址：InetAddress
+    唯一的标识 Internet 上的计算机
+端口号标识正在计算机上运行的进程（程序）
+    不同的进程有不同的端口号
+端口号与IP地址的组合得出一个网络套接字。
+
+Internet上的主机有两种方式表示地址：
+    域名(hostName)：www.atguigu.com
+    IP 地址(hostAddress)：202.108.35.210
+
+传输层协议中有两个非常重要的协议：
+    传输控制协议TCP(Transmission Control Protocol)
+    用户数据报协议UDP(User Datagram Protocol)。
+TCP/IP 以其两个主要协议：传输控制协议(TCP)和网络互联协议(IP)而得名，实际上是一组协议，包括多个具有不同功能且互为关联的协议。
+
+二、Socket
+通信的两端都要有Socket，是两台机器间通信的端点
+网络通信其实就是Socket间的通信。
+Socket允许程序把网络连接当成一个流，数据在两个Socket间通过IO传输。
+
+客户端Socket的工作过程包含以下四个基本的步骤：
+创建 Socket：根据指定服务端的 IP 地址或端口号构造 Socket 类对象。若服务器端响应，则建立客户端到服务器的通信线路。若连接失败，会出现异常。
+打开连接到 Socket 的输入/出流： 使用 getInputStream()方法获得输入流，使用 getOutputStream()方法获得输出流，进行数据传输
+按照一定的协议对 Socket  进行读/写操作：通过输入流读取服务器放入线路的信息（但不能读取自己放入线路的信息），通过输出流将信息写入线程。
+关闭 Socket：断开客户端到服务器的连接，释放线路
+
+三、UDP网络通信
+类 DatagramSocket 和 DatagramPacket 实现了基于 UDP 协议网络程序。
+UDP数据报通过数据报套接字 DatagramSocket 发送和接收，系统不保证UDP数据报一定能够安全送到目的地，也不能确定什么时候可以抵达。
+DatagramPacket 对象封装了UDP数据报，在数据报中包含了发送端的IP地址和端口号以及接收端的IP地址和端口号。
+UDP协议中每个数据报都给出了完整的地址信息，因此无须建立发送方和接收方的连接
+
+四、URL(Uniform Resource Locator)：统一资源定位符，它表示 Internet 上某一资源的地址。通过 URL 我们可以访问 Internet 上的各种网络资源，比如最常见的 www，ftp 站点。浏览器通过解析给定的 URL 可以在网络上查找相应的文件或其他资源。
+ URL的基本结构由5部分组成：
+<传输协议>://<主机名>:<端口号>/<文件名>
+例如: http://192.168.1.100:8080/helloworld/index.jsp
+
+URLConnection：表示到URL所引用的远程对象的连接。当与一个URL建立连接时，首先要在一个 URL 对象上通过方法 openConnection() 生成对应的 URLConnection 对象。如果连接过程失败，将产生IOException.
+URL netchinaren = new URL ("http://www.atguigu.com/index.shtml");
+URLConnectonn u = netchinaren.openConnection( );
+
+
+
+
+
+

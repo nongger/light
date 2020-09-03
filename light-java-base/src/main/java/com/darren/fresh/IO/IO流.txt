@@ -1,0 +1,38 @@
+java.io.File类的使用
+IO原理及流的分类
+文件流
+FileInputStream  /  FileOutputStream  /  FileReader  /  FileWriter
+缓冲流
+BufferedInputStream / BufferedOutputStream /
+BufferedReader / BufferedWriter
+转换流
+InputStreamReader  /  OutputStreamWriter
+
+java.io.File类：
+1.可以表示文件或目录，平台无关
+2.File 能新建、删除、重命名文件和目录，但 File 不能访问文件内容本身。如果需要访问文件内容本身，则需要使用输入/输出流。
+3.File对象可以作为参数传递给流的构造函数
+
+按操作数据单位不同分为：字节流(8 bit)，字符流(16 bit)
+按数据流的流向不同分为：输入流，输出流
+按流的角色的不同分为：节点流，处理流
+
+处理流（缓冲流）
+为了提高数据读写的速度，Java API提供了带缓冲功能的流类，在使用这些流类时，会创建一个内部缓冲区数组
+根据数据操作单位可以把缓冲流分为：
+BufferedInputStream 和 BufferedOutputStream
+BufferedReader 和 BufferedWriter
+缓冲流要“套接”在相应的节点流之上，对读写的数据提供了缓冲的功能，提高了读写的效率，同时增加了一些新的方法
+对于输出的缓冲流，写出的数据会先在内存中缓存，使用flush()将会使内存中的数据立刻写出
+关闭过滤流时,会自动关闭它所包装的底层节点流
+
+
+
+注意：
+程序中打开的文件 IO 资源不属于内存里的资源，垃圾回收机制无法回收该资源，所以应该显式关闭文件 IO 资源。
+定义文件路径时，注意：可以用“/”或者“\\”。
+在写入一个文件时，如果目录下有同名文件将被覆盖。
+在读取文件时，必须保证该文件已存在，否则出异常。
+
+
+
