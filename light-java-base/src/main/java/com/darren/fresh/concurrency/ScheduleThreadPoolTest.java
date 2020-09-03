@@ -1,7 +1,5 @@
 package com.darren.fresh.concurrency;
 
-import com.darren.utils.CommonLog;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,7 +30,7 @@ public class ScheduleThreadPoolTest {
                 System.out.println(resut.get());
             }
         } catch (Exception e) {
-            CommonLog.error("线程池执行异常：{}", e.getMessage());
+            System.out.println("线程池执行异常：{}"+e.getMessage());
         } finally {
             scheduledExecutorService.shutdown();
         }

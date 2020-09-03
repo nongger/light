@@ -30,7 +30,6 @@ public class RestSignUtils {
 
             return getSign(paramMap, token);
         } catch (Exception e) {
-            CommonLog.error("sign failed. error [{}]", e.getMessage());
             throw new RuntimeException("签名计算错误");
         }
     }
@@ -57,7 +56,6 @@ public class RestSignUtils {
 //            CommonLog.warn("encodestring [{}]", orignalSign);
             return Md5Utils.GetMD5Code(orignalSign).toLowerCase();
         } catch (Exception e) {
-            CommonLog.warn("parameter sort failed. {}", e.getMessage());
         }
         return null;
     }
@@ -97,7 +95,6 @@ public class RestSignUtils {
             String orignalSign = org.apache.commons.lang.StringUtils.join(params, "&");
             return Md5Utils.GetMD5Code(String.format("%s%s", orignalSign, signKey));
         } catch (Exception e) {
-            CommonLog.warn("parameter getApiSign failed. paramterMap = {}, {}", paramterMap, e.getMessage());
         }
         return null;
     }

@@ -3,7 +3,6 @@ package com.darren.base;
 
 import com.darren.exception.ExceptionEnum;
 import com.darren.exception.RequestException;
-import com.darren.utils.CommonLog;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,22 +17,18 @@ public class BaseController {
     // 通用状态码
     protected static final String FAIL_STR = "FAIL"; //失败
     protected static final String SUCCESS_STR = "SUCCESS"; //成功
-    protected static final String OVERDUE_STR = "OVERDUE"; //过期
 
 
     @ExceptionHandler
     @ResponseBody
     public ResWrapperVO handleException(Exception e) {
-        CommonLog.info("handle Exception fail. [{}]", e.getMessage());
         if (e instanceof RequestException) {
             RequestException re = (RequestException) e;
             return fail(re, re.getData() != null ? re.getData() : null);
         } else if (e.getClass() == InvalidParameterException.class ||
                 e.getClass() == MethodArgumentNotValidException.class) {
-            CommonLog.info(e.getLocalizedMessage());
             return fail(ExceptionEnum.MISSING_PARAMS, null);
         } else {
-            CommonLog.info(e.getLocalizedMessage());
 
             RequestException exception = null;
             if (StringUtils.isNotBlank(e.getMessage())) {

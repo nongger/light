@@ -3,6 +3,8 @@ package com.darren.utils;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -15,6 +17,7 @@ import java.util.concurrent.*;
  * on 2018/5/9.
  */
 public class OkHttpClientTools {
+    private static Logger logger = LoggerFactory.getLogger(OkHttpClientTools.class);
 
     private static final String CHARSET_UTF8 = "UTF-8";
 
@@ -101,9 +104,10 @@ public class OkHttpClientTools {
 
     /**
      * fallBackRequestDTOs GET 使用 url 与 mapData 组合，自动将 mapData 进行字串拼接，加载在 url 后请求
-     *                            POST 当ContentType为 formData，默认使用 mapData 为表单内容，
-     *                            当ContentType为 JSON 时，如存在 rawData 非空，使用 rawData 进行 POST，否则使用 mapData 转化的 Json 进行 POST
-     *                            当ContentType为 XML 是，使用 rawData 进行 POST 请求
+     * POST 当ContentType为 formData，默认使用 mapData 为表单内容，
+     * 当ContentType为 JSON 时，如存在 rawData 非空，使用 rawData 进行 POST，否则使用 mapData 转化的 Json 进行 POST
+     * 当ContentType为 XML 是，使用 rawData 进行 POST 请求
+     *
      * @return
      * @throws Exception
      */
@@ -186,8 +190,6 @@ public class OkHttpClientTools {
     //    }
     //    throw ExceptionEnum.HTTP_REQUEST_FAIL.createException();
     //}
-
-
     public static String sendPostFormData(String url, Map<String, String> paraMaps, int connectionTimeoutInMs, int socketTimeoutInMs) throws Exception {
         OkHttpClient okHttpClient = getInstanceByTime(connectionTimeoutInMs, socketTimeoutInMs);
         Request.Builder requestBuilder = new Request.Builder().url(url);
@@ -226,7 +228,7 @@ public class OkHttpClientTools {
             throw e;
         } finally {
             long after = System.currentTimeMillis();
-            CommonLog.info("okHttpClient request cost:[{}],url:[{}]", (after - before), url);
+            logger.info("okHttpClient request cost:[{}],url:[{}]", (after - before), url);
             closeRespone(response);
         }
         return responeContent;

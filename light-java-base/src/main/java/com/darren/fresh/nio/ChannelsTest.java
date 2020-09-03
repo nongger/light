@@ -1,7 +1,8 @@
 package com.darren.fresh.nio;
 
-import com.darren.utils.CommonLog;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -63,6 +64,8 @@ import java.util.SortedMap;
  * @date 2018/7/16 9:16
  */
 public class ChannelsTest {
+    private static Logger logger = LoggerFactory.getLogger(ChannelsTest.class);
+
 
     @Test
     public void charsetCoderTest() throws CharacterCodingException {
@@ -151,9 +154,9 @@ public class ChannelsTest {
             WriteFileChannel.transferFrom(readFileChannel, 0, readFileChannel.size());
 
         } catch (IOException e) {
-            CommonLog.error("文件操作出现错误：{}", e.getMessage());
+            logger.error("文件操作出现错误：{}", e.getMessage());
         } finally {
-            CommonLog.info("复制文件结束");
+            logger.info("复制文件结束");
             try {
                 readFileChannel.close();
                 WriteFileChannel.close();
@@ -189,7 +192,7 @@ public class ChannelsTest {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            CommonLog.info("复制文件结束");
+            logger.info("复制文件结束");
             try {
                 readFileChannel.close();
                 WriteFileChannel.close();

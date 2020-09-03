@@ -1,6 +1,8 @@
 package com.darren.fresh.concurrency;
 
-import com.darren.utils.CommonLog;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,8 @@ import java.util.concurrent.*;
 
 
 public class ThreadPoolTest {
+    private static Logger logger = LoggerFactory.getLogger(ThreadPoolTest.class);
+
 
     //Executor
     public static void main(String[] args) {
@@ -76,7 +80,7 @@ public class ThreadPoolTest {
                     for (int j = 0; j <= 100; j++) {
                         sum += j;
                     }
-                    CommonLog.info("{}执行结果：[{}]", Thread.currentThread().getName(), sum);
+                    logger.info("{}执行结果：[{}]", Thread.currentThread().getName(), sum);
                     return sum;
                 });
 
@@ -85,18 +89,18 @@ public class ThreadPoolTest {
 
             //System.out.println(future.get());
 //            for (Future result : futures) {
-//                CommonLog.error("{}线程池执行结果：{}", Thread.currentThread().getName(), result.get());
+//                logger.error("{}线程池执行结果：{}", Thread.currentThread().getName(), result.get());
 //            }
 
 
         } catch (Exception e) {
-            CommonLog.error("线程池执行异常：{}", e.getMessage());
+            logger.error("线程池执行异常：{}", e.getMessage());
         } finally {
             pool.shutdown();
         }
         for (int i = 0; i < 10; i++) {
             Future<Integer> future = pool.submit(() -> {
-                CommonLog.info("{}执行", Thread.currentThread().getName());
+                logger.info("{}执行", Thread.currentThread().getName());
                 return 1;
             });
         }
