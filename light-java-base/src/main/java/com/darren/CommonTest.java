@@ -51,6 +51,10 @@ public class CommonTest {
         String timeStradd = DateTools.addYYYYMMDDHHMMSSFromatDate(timeStr, 300);
         System.out.println(timeStradd);
         System.out.println("纳秒值：" + System.nanoTime());
+        long now = System.currentTimeMillis();
+        long end = now - now % 60000;
+        System.out.println("当前分钟级时间戳： " + end);
+
         //for (int i = 0; i < 50; i++) {
         //    genOrderNo();
         //    System.out.println();

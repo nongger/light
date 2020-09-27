@@ -2,6 +2,7 @@ package com.darren.java8.newDateAPI;
 
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -35,6 +36,8 @@ public class DateAPITest {
         LocalDateTime localDateTime2 = localDateTime.minusDays(4);
         System.out.println(localDateTime2);
 
+        System.out.println("3分钟前："+ localDateTime.minusMinutes(3));
+
         System.out.println("=======================");
 
         // 将月份天数、年份天数、月份、年份修改为指定的值,并返回新的LocalDate对象
@@ -60,6 +63,8 @@ public class DateAPITest {
         System.out.println(localDateTime.getDayOfWeek());
 
         System.out.println("=======================");
+        long timestamp = Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0))).getTime();
+        System.out.println(timestamp);
 
 //        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FORMAT_DATETIME);
 
@@ -128,6 +133,7 @@ public class DateAPITest {
         System.out.println(dateTimeFormatter.format(localDate));
         System.out.println(dateTimeFormatter.format(end));
 
+        // 获取一天时间的最大最小值
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String dayStart = dtf.format(LocalDateTime.of(LocalDate.now(), LocalTime.MIN));
         String dayEnd = dtf.format(LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
