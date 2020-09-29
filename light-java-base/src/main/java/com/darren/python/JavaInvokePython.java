@@ -14,7 +14,7 @@ public class JavaInvokePython {
     public static void main(String[] args) {
         Process proc;
         try {
-            proc = Runtime.getRuntime().exec("python /Users/eric/PythonHelloWorld.py data.log file.log");
+            proc = Runtime.getRuntime().exec("python /Users/eric/PythonScript-v2.1.py /Users/eric/data.log /Users/eric/file.log");
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {
