@@ -5,13 +5,10 @@ import java.util.Scanner;
 /**
  * Project: light
  * Author : Eric
- * Time   : 2020-09-29 11:26
- * Desc   :  队列是一个有序列表，可以用数组或是链表来实现。
- * 遵循先入先出的原则。即：先存入队列的数据，要先取出。后存入的要后取出
- *
- * 简单演示队列的原理，此例数组不能复用存在问题
+ * Time   : 2020-10-08 15:59
+ * Desc   : 数组模拟环形队列
  */
-public class ArrayQueue {
+public class WheelArrayQueue {
     private int capacity;
     private int[] items;
     // 队列的输出、输入是分别从头和尾来处理，因此需要两个变量 head及 tail分别记录队列前后端的下标，
@@ -19,15 +16,15 @@ public class ArrayQueue {
     private int head;
     private int tail;
 
-    public ArrayQueue(int capacity) {
+    public WheelArrayQueue(int capacity) {
         this.capacity = capacity;
-        this.head = -1;// 注意：指向队列头的前一个位置
-        this.tail = -1;// 指向队列尾的位置，就是最后一个数据
         this.items = new int[capacity];
+        this.head = 0;// 指向队列的第一个元素的位置
+        this.tail = 0;// 指向最后一个元素的后一个位置
     }
 
     public boolean isFull() {
-        return tail == capacity - 1;
+        return head == (tail + 1) % capacity;
     }
 
     public boolean isEmpty() {
@@ -43,17 +40,27 @@ public class ArrayQueue {
      */
     public void addQueue(int node) {
         if (isFull()) {
-            System.err.println("队列已满，丢弃入队的数据");
+            System.err.println("队列已满，丢弃当前入队的数据");
             return;
         }
-        items[++tail] = node;
+        items[tail] = node;
+        // 将尾指针后移，环形队列考虑取模
+        tail = (tail + 1) % capacity;
     }
 
     public int getQueue() {
         if (isEmpty()) {
             throw new RuntimeException("队列为空，出队失败");
         }
-        return items[++head];
+        // 取出头结点
+        int headValue = items[head];
+        // 重新计算头结点的位置
+        head = (head + 1) % capacity;
+        return headValue;
+    }
+
+    public int size() {
+        return (tail + capacity - head) % capacity;
     }
 
     public void showQueue() {
@@ -61,8 +68,8 @@ public class ArrayQueue {
             System.err.println("队列为空");
             return;
         }
-        for (int i = 0; i < items.length; i++) {
-            System.out.printf("items[%d]=%d\n", i, items[i]);
+        for (int i = head; i < head + size(); i++) {
+            System.out.printf("items[%d]=%d\n", i % capacity, items[i % capacity]);
         }
     }
 
@@ -70,15 +77,16 @@ public class ArrayQueue {
         if (isEmpty()) {
             throw new RuntimeException("队列为空，无法展示头数据！");
         }
-        return items[head + 1];
+        return items[head];
     }
 
 
     public static void main(String[] args) {
-        ArrayQueue queue = new ArrayQueue(3);
+        // 可用容量是数组大小减1
+        WheelArrayQueue queue = new WheelArrayQueue(4);
         System.out.println("s(show)显示队列内容");
         System.out.println("h(head)显示头结点");
-        System.out.println("a(add)向队列添加元素");
+        System.out.println("a(add)入队一个元素");
         System.out.println("g(get)出队一个元素");
         System.out.println("e(exit)退出");
 
@@ -93,7 +101,7 @@ public class ArrayQueue {
                     break;
                 case 'h':
                     try {
-                        System.out.printf("队列的头数据是：%d\n", queue.peekQueue());
+                        System.out.printf("队列的头数据：%d\n", queue.peekQueue());
                     } catch (Exception e) {
                         System.err.println(e.getMessage());
                     }
@@ -123,6 +131,4 @@ public class ArrayQueue {
         System.out.println("程序退出");
 
     }
-
-
 }
