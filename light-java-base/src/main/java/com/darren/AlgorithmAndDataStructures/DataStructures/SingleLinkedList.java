@@ -112,6 +112,10 @@ public class SingleLinkedList {
 
     }
 
+    public SimpleNode getHead() {
+        return head;
+    }
+
     static class SimpleNode {
         public int No;
         public String name;
@@ -139,18 +143,100 @@ public class SingleLinkedList {
         linkedList.addByNo(new SimpleNode(2, "darren"));
         linkedList.addByNo(new SimpleNode(1, "eric"));
         linkedList.addByNo(new SimpleNode(4, "caroline"));
+        linkedList.addByNo(new SimpleNode(3, "non"));
         System.out.println("--插入后的链表内容--");
         linkedList.showAll();
 
-        linkedList.updateByNo(new SimpleNode(4, "caroline+eric"));
-        System.out.println("--修改后的链表内容--");
+//        linkedList.updateByNo(new SimpleNode(4, "caroline+eric"));
+//        System.out.println("--修改后的链表内容--");
+//        linkedList.showAll();
+//
+//        linkedList.delNode(4);
+//        linkedList.delNode(2);
+//        linkedList.delNode(1);
+//        System.out.println("--删除后的链表内容--");
+//        linkedList.showAll();
+
+        System.out.println("链表长度：" + getLength(linkedList.getHead()));
+        System.out.println("查找结果：" + searchBottomK(linkedList.getHead(), 4));
+        System.out.println("--反转后的链表内容--");
+        reverseLink(linkedList.getHead());
         linkedList.showAll();
 
-        linkedList.delNode(4);
-        linkedList.delNode(2);
-        linkedList.delNode(1);
-        System.out.println("--删除后的链表内容--");
-        linkedList.showAll();
+    }
+
+    /**
+     * 单链表中有效节点的个数（不统计头结点）
+     * 思路：
+     * 从头结点遍历一遍链表
+     */
+    public static int getLength(SimpleNode head) {
+        if (head.next == null) {
+            return 0;
+        }
+        int length = 0;
+        SimpleNode cur = head.next;
+        while (cur != null) {
+            length++;
+            cur = cur.next;
+        }
+        return length;
+
+    }
+
+    /**
+     * 查找单链表中的倒数第k个结点 【新浪面试题】
+     * 入参：链表头结点，倒数第k个
+     */
+    public static SimpleNode searchBottomK(SimpleNode head, int k) {
+        if (head.next == null) {
+            return null;
+        }
+        // 先获取链表总大小
+        int length = getLength(head);
+        // 索引合法检查
+        if (k <= 0 || k > length) {
+            return null;
+        }
+
+        SimpleNode cur = head.next;
+        for (int i = 0; i < length - k; i++) {
+            cur = cur.next;
+        }
+
+        return cur;
+    }
+
+    /**
+     * 单链表的反转【腾讯面试题】
+     * 1. 新建一个头结点reverseHead
+     * 2. 从头到尾遍历原来的链表，每遍历一个节点将其从链表摘除，并放到新链表reverseHead的最前端
+     * 3. 将原链表头指向新链表
+     */
+    public static void reverseLink(SimpleNode head) {
+        if (head.next == null || head.next.next == null) {
+            System.out.println("链表为空或只有一个元素，不需要反转");
+            return;
+        }
+        SimpleNode reverseHead = new SimpleNode(0, "reverse");
+        SimpleNode cur = head.next;
+        SimpleNode next = null;
+        while (cur != null) {
+            next = cur.next;// 暂存当前节点的下一个节点
+            head.next = next;// 将当前节点从原链表摘除
+            cur.next = reverseHead.next;// 当前节点的下一个节点指向新链表的第一个元素
+            reverseHead.next = cur;// 新链表的头结点的next指向当前节点（就是把当前节点放到新链表的第一个位置）
+            cur = next;
+        }
+        // 头结点连接到新链表
+        head.next = reverseHead.next;
+
+    }
+
+    /**
+     * 从尾到头打印单链表 【百度，要求方式1：反向遍历 。 方式2：Stack栈】
+     */
+    public static void printReverse(SimpleNode head) {
 
     }
 
