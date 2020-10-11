@@ -1,5 +1,9 @@
 package com.darren.AlgorithmAndDataStructures.DataStructures;
 
+import org.junit.Test;
+
+import java.util.Stack;
+
 /**
  * Project: light
  * Author : Eric
@@ -157,11 +161,14 @@ public class SingleLinkedList {
 //        System.out.println("--删除后的链表内容--");
 //        linkedList.showAll();
 
-        System.out.println("链表长度：" + getLength(linkedList.getHead()));
-        System.out.println("查找结果：" + searchBottomK(linkedList.getHead(), 4));
-        System.out.println("--反转后的链表内容--");
-        reverseLink(linkedList.getHead());
-        linkedList.showAll();
+//        System.out.println("链表长度：" + getLength(linkedList.getHead()));
+//        System.out.println("查找结果：" + searchBottomK(linkedList.getHead(), 4));
+//        System.out.println("--反转后的链表内容--");
+//        reverseLink(linkedList.getHead());
+//        linkedList.showAll();
+
+        System.out.println("--逆序打印--");
+        printReverse(linkedList.getHead());
 
     }
 
@@ -237,7 +244,68 @@ public class SingleLinkedList {
      * 从尾到头打印单链表 【百度，要求方式1：反向遍历 。 方式2：Stack栈】
      */
     public static void printReverse(SimpleNode head) {
+        if (head.next == null) {
+            return;
+        }
 
+        SimpleNode cur = head.next;
+        Stack<SimpleNode> stack = new Stack<>();
+        while (cur != null) {
+            stack.push(cur);
+            cur = cur.next;
+        }
+
+        while (stack.size() > 0) {
+            System.out.println(stack.pop());
+        }
+
+    }
+
+    /**
+     * 合并两个有序的单链表，合并之后的链表依然有序
+     * 头结点不存储数据
+     */
+    public SimpleNode mergeByOrder(SimpleNode head1, SimpleNode head2) {
+        SimpleNode mergeHead = new SimpleNode(0, "");
+        SimpleNode temp = mergeHead;
+
+        // 两个链表都为空或遍历完成，跳出循环
+        while (head1.next != null && head2.next != null) {
+            if (head1.next.No <= head2.next.No) {
+                temp.next = head1.next;
+                head1 = head1.next;
+            } else {
+                temp.next = head2.next;
+                head2 = head2.next;
+            }
+            temp = temp.next;
+        }
+        temp.next = head1.next == null ? head2.next : head1.next;
+
+        return mergeHead;
+    }
+
+    @Test
+    public void testMergeByOrder() {
+        SingleLinkedList linkedList = new SingleLinkedList();
+        linkedList.addLink(new SimpleNode(2, "darren"));
+        linkedList.addLink(new SimpleNode(1, "eric"));
+        linkedList.addLink(new SimpleNode(4, "caroline"));
+        linkedList.addLink(new SimpleNode(3, "non"));
+        System.out.println("--插入后的链表内容--");
+        linkedList.showAll();
+        SingleLinkedList linkedList2 = new SingleLinkedList();
+        linkedList2.addLink(new SimpleNode(1, "eric"));
+        linkedList2.addLink(new SimpleNode(2, "darren"));
+        linkedList2.addLink(new SimpleNode(8, "caroline"));
+        linkedList2.addLink(new SimpleNode(5, "non"));
+        System.out.println("--插入后的链表内容--");
+        linkedList2.showAll();
+        SimpleNode simpleNode = mergeByOrder(linkedList.getHead(), linkedList2.getHead());
+        while (simpleNode.next != null) {
+            System.out.println(simpleNode.next);
+            simpleNode = simpleNode.next;
+        }
     }
 
 }
