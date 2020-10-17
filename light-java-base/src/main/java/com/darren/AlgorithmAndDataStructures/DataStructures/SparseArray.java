@@ -118,7 +118,6 @@ public class SparseArray {
                 // 写入文件
                 bufferedWriter.write(newLine);
                 System.out.print(newLine);
-//                bufferedWriter.newLine();
             }
             bufferedWriter.flush();
         } catch (IOException e) {
