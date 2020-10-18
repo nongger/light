@@ -264,44 +264,82 @@ public class SingleLinkedList {
     /**
      * 合并两个有序的单链表，合并之后的链表依然有序
      * 头结点不存储数据
+     * <p>
+     * leetcode有此算法题，采用遍历的方式解决
      */
     public SimpleNode mergeByOrder(SimpleNode head1, SimpleNode head2) {
         SimpleNode mergeHead = new SimpleNode(0, "");
-        SimpleNode temp = mergeHead;
+        SimpleNode cur = mergeHead;
 
         // 两个链表都为空或遍历完成，跳出循环
         while (head1.next != null && head2.next != null) {
             if (head1.next.No <= head2.next.No) {
-                temp.next = head1.next;
-                head1 = head1.next;
+                // 记录旧节点
+                cur.next = head1.next;
+                // 从旧链表摘除
+                head1.next = head1.next.next;
+
             } else {
-                temp.next = head2.next;
-                head2 = head2.next;
+                // 记录旧节点
+                cur.next = head2.next;
+                // 从旧链表摘除
+                head2.next = head2.next.next;
             }
-            temp = temp.next;
+            // 临时节点后移
+            cur = cur.next;
         }
-        temp.next = head1.next == null ? head2.next : head1.next;
+        cur.next = head1.next == null ? head2.next : head1.next;
 
         return mergeHead;
     }
 
+    /**
+     * 合并两个有序的单链表，合并之后的链表依然有序
+     * 头结点不存储数据
+     * <p>
+     * leetcode有此算法题，采用递归的方式解决
+     * <p>
+     * 中止条件：某个链表先遍历完成
+     * 某次输出：最小的一个节点
+     * 递归思路：将每次返回的最小值的下一个节点指向下一次的调用输出，当前的最小节点前向遍历作为下一次递归调用的输入
+     */
+    public SimpleNode mergeByOrderWithRecursion(SimpleNode head1, SimpleNode head2) {
+        if (head1.next == null) {
+            return head2.next;
+        }
+        if (head2.next == null) {
+            return head1.next;
+        }
+
+        if (head1.next.No <= head2.next.No) {
+            head1.next.next = mergeByOrderWithRecursion(head1.next, head2);
+            return head1.next;
+        } else {
+            head2.next.next = mergeByOrderWithRecursion(head1, head2.next);
+            return head2.next;
+        }
+
+    }
+
+
     @Test
     public void testMergeByOrder() {
         SingleLinkedList linkedList = new SingleLinkedList();
-        linkedList.addLink(new SimpleNode(2, "darren"));
         linkedList.addLink(new SimpleNode(1, "eric"));
-        linkedList.addLink(new SimpleNode(4, "caroline"));
+        linkedList.addLink(new SimpleNode(2, "darren"));
         linkedList.addLink(new SimpleNode(3, "non"));
-        System.out.println("--插入后的链表内容--");
+        linkedList.addLink(new SimpleNode(4, "caroline"));
+        System.out.println("--插入后的链表1内容--");
         linkedList.showAll();
         SingleLinkedList linkedList2 = new SingleLinkedList();
         linkedList2.addLink(new SimpleNode(1, "eric"));
         linkedList2.addLink(new SimpleNode(2, "darren"));
-        linkedList2.addLink(new SimpleNode(8, "caroline"));
         linkedList2.addLink(new SimpleNode(5, "non"));
-        System.out.println("--插入后的链表内容--");
+        linkedList2.addLink(new SimpleNode(8, "caroline"));
+        System.out.println("--插入后的链表2内容--");
         linkedList2.showAll();
-        SimpleNode simpleNode = mergeByOrder(linkedList.getHead(), linkedList2.getHead());
+        SimpleNode simpleNode = mergeByOrderWithRecursion(linkedList.getHead(), linkedList2.getHead());
+        System.out.println("--merge后的链表内容--");
         while (simpleNode.next != null) {
             System.out.println(simpleNode.next);
             simpleNode = simpleNode.next;
