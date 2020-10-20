@@ -397,5 +397,13 @@ public class CommonTest {
         }
     }
 
+    @Test
+    public void testRandom() {
+        for (int i = 0; i < 1000; i++) {
+            int index = new Random().nextInt(3);
+            System.out.println(index);
+        }
+    }
+
 
 }

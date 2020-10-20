@@ -162,13 +162,14 @@ public class SingleLinkedList {
 //        linkedList.showAll();
 
 //        System.out.println("链表长度：" + getLength(linkedList.getHead()));
-//        System.out.println("查找结果：" + searchBottomK(linkedList.getHead(), 4));
+//        System.out.println("查找结果：" + searchBottomK1(linkedList.getHead(), 3));
+
 //        System.out.println("--反转后的链表内容--");
 //        reverseLink(linkedList.getHead());
 //        linkedList.showAll();
 
-        System.out.println("--逆序打印--");
-        printReverse(linkedList.getHead());
+//        System.out.println("--逆序打印--");
+//        printReverse(linkedList.getHead());
 
     }
 
@@ -194,6 +195,7 @@ public class SingleLinkedList {
     /**
      * 查找单链表中的倒数第k个结点 【新浪面试题】
      * 入参：链表头结点，倒数第k个
+     * 暴力解：计算链表长度，把倒数转成正数，变成寻找正数第size-k个元素
      */
     public static SimpleNode searchBottomK(SimpleNode head, int k) {
         if (head.next == null) {
@@ -212,6 +214,34 @@ public class SingleLinkedList {
         }
 
         return cur;
+    }
+
+    /**
+     * 查找单链表中的倒数第k个结点 【新浪面试题】
+     * 入参：链表头结点，倒数第k个
+     * 优化解：
+     * 1. 使用两个指针p1,pk
+     * 2. 首先两个指针指向head节点，然后移动pk节点到第k个元素
+     * 3. 然后p1，pk同步移动，直到pk指向最后一个元素(pk.next == null)
+     * 4. p1就是我们要寻找的元素
+     */
+    public static SimpleNode searchBottomK1(SimpleNode head, int k) {
+        // 1. 使用两个指针p1,pk
+        SimpleNode p1 = head.next, pk = head.next;
+        // 2. 首先两个指针指向head节点，然后移动pk节点到第k个元素
+        for (int i = 1; i < k; i++) {
+            if (pk.next == null) {
+                throw new RuntimeException(String.format("链表长度不足%d，无法找到倒数第%d个元素\n", k, k));
+            }
+            pk = pk.next;
+        }
+        // 3. 然后p1，pk同步移动，直到pk指向最后一个元素
+        while (pk.next != null) {
+            p1 = p1.next;
+            pk = pk.next;
+        }
+        // 4. p1就是我们要寻找的元素
+        return p1;
     }
 
     /**
