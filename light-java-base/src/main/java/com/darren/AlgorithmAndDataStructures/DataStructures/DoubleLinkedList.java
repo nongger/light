@@ -9,10 +9,10 @@ import org.junit.Test;
  */
 public class DoubleLinkedList {
 
-    ListNode head = new ListNode(0);
+    DoubleListNode head = new DoubleListNode(0);
 
-    public void add(ListNode node) {
-        ListNode current = head;
+    public void add(DoubleListNode node) {
+        DoubleListNode current = head;
         // 找到最后一个节点
         while (current.next != null) {
             current = current.next;
@@ -23,7 +23,7 @@ public class DoubleLinkedList {
     }
 
     public boolean delete(int val) {
-        ListNode current = head.next;
+        DoubleListNode current = head.next;
         // 找到匹配节点
         boolean flag = false;
         while (current != null) {
@@ -46,12 +46,12 @@ public class DoubleLinkedList {
         return flag;
     }
 
-    public ListNode getHead() {
+    public DoubleListNode getHead() {
         return head;
     }
 
     public void showAll() {
-        ListNode current = head.next;
+        DoubleListNode current = head.next;
         while (current != null) {
             System.out.println(current);
             current = current.next;
@@ -59,26 +59,26 @@ public class DoubleLinkedList {
 
     }
 
-    public class ListNode {
+    public class DoubleListNode {
         int val;
-        ListNode next;
-        ListNode pre;
+        DoubleListNode next;
+        DoubleListNode pre;
 
-        ListNode() {
+        DoubleListNode() {
         }
 
-        ListNode(int val) {
+        DoubleListNode(int val) {
             this.val = val;
         }
 
-        ListNode(int val, ListNode next) {
+        DoubleListNode(int val, DoubleListNode next) {
             this.val = val;
             this.next = next;
         }
 
         @Override
         public String toString() {
-            return "ListNode{" +
+            return "DoubleListNode{" +
                     "val=" + val +
                     '}';
         }
@@ -87,8 +87,8 @@ public class DoubleLinkedList {
     @Test
     public void test() {
         DoubleLinkedList doubleLinkedList = new DoubleLinkedList();
-        doubleLinkedList.add(new ListNode(1));
-        doubleLinkedList.add(new ListNode(2));
+        doubleLinkedList.add(new DoubleListNode(1));
+        doubleLinkedList.add(new DoubleListNode(2));
         doubleLinkedList.showAll();
 
         System.out.println("-----删除后的链表----");

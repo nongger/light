@@ -1,5 +1,6 @@
 package com.darren.AlgorithmAndDataStructures.leetcode;
 
+import com.darren.AlgorithmAndDataStructures.leetcode.model.ListNode;
 import org.junit.Test;
 
 /**
@@ -14,22 +15,7 @@ import org.junit.Test;
  * 输出：1->1->2->3->4->4
  */
 public class MergeTwoLinkList {
-    public class ListNode {
-        int val;
-        ListNode next;
 
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 
     @Test
     public void testMergeTwoLists() {

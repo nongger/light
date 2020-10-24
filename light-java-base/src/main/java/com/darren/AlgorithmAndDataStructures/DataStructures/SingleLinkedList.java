@@ -162,11 +162,11 @@ public class SingleLinkedList {
 //        linkedList.showAll();
 
 //        System.out.println("链表长度：" + getLength(linkedList.getHead()));
-//        System.out.println("查找结果：" + searchBottomK1(linkedList.getHead(), 3));
+        System.out.println("查找结果：" + searchBottomK1(linkedList.getHead(), 4));
 
-//        System.out.println("--反转后的链表内容--");
-//        reverseLink(linkedList.getHead());
-//        linkedList.showAll();
+        System.out.println("--反转后的链表内容--");
+        reverseLink(linkedList.getHead());
+        linkedList.showAll();
 
 //        System.out.println("--逆序打印--");
 //        printReverse(linkedList.getHead());
