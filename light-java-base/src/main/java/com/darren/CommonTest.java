@@ -366,6 +366,19 @@ public class CommonTest {
             Date startDate = format.parse(startTime);
             Date endDate = format.parse(endTime);
 
+            // 日历使用
+            Calendar calendar = Calendar.getInstance();
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1;//DateUtil.getMonth(sendTime);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int min = calendar.get(Calendar.MINUTE);
+
+            // 创建一个定时的cron表达式
+            String cron = String.format("0 %s %s %s %s ? %s", min, hour, day, month, year);
+            System.out.println(cron);
+
 
         } catch (ParseException e) {
 
