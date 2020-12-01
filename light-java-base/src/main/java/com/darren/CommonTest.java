@@ -379,6 +379,11 @@ public class CommonTest {
             String cron = String.format("0 %s %s %s %s ? %s", min, hour, day, month, year);
             System.out.println(cron);
 
+            // 获取mod两分钟的平均值
+            long lastSecond = System.currentTimeMillis() - 60000;
+            long second = lastSecond - lastSecond % 60000;
+            System.out.printf("分钟级时间戳,\n\"start\":%d, \n\"end\": %d\n", second, lastSecond);
+
 
         } catch (ParseException e) {
 

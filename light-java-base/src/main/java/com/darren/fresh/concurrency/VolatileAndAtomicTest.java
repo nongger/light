@@ -1,7 +1,6 @@
 package com.darren.fresh.concurrency;
 
-import org.junit.Test;
-
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -35,23 +34,66 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class VolatileAndAtomicTest {
     public static void main(String[] args) {
-        AtomicDemo atomicDemo = new AtomicDemo();
-        for (int i = 0; i < 10; i++) {
-            new Thread(atomicDemo).start();
-        }
-        System.out.println("当前活跃线程数：" + Thread.activeCount());
+        // 测试可见性问题
+//        testVisible();
+        // 不保证原子性测试
+        testAtomic();
     }
 
-    @Test
-    public void testAtomic() {
+    public static void testAtomic() {
+        MyData data = new MyData();
+
         // volatile int value  保证内存可见性
-        AtomicInteger atomicInteger = new AtomicInteger(0);
+        for (int i = 0; i < 10; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 1000; j++) {
+                    data.incr();
+                }
+                System.out.println(Thread.currentThread().getName() + "线程结束:" + data.num);
+            }, String.valueOf(i)).start();
+        }
 
-        boolean canSet = atomicInteger.compareAndSet(0, 1);
-        System.out.println(canSet);
+        while (Thread.activeCount() > 2) {
+            Thread.yield();
+        }
+        System.out.println("当前活跃线程数：" + Thread.activeCount() + ", 任务结束:" + data.num);
+
+    }
+
+    /**
+     * 可见性测试
+     * 关键data.num是否用volatile修饰
+     */
+    public static void testVisible() {
+        MyData data = new MyData();
+        new Thread(() -> {
+            try {
+                System.out.println(Thread.currentThread().getName() + "线程活动:" + data.num);
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            data.num = 10;
+            System.out.println(Thread.currentThread().getName() + "线程结束:" + data.num);
+        }, "AAA").start();
+
+        // 如不加volatile关键字线程AAA的改动将对主线程不可见
+        while (data.num == 0) {
+            // 阻塞等待
+        }
+        System.out.println(Thread.currentThread().getName() + "线程结束:" + data.num);
+
     }
 
 
+}
+
+class MyData {
+    volatile int num;
+
+    public void incr() {
+        num++;
+    }
 }
 
 class AtomicDemo implements Runnable {
