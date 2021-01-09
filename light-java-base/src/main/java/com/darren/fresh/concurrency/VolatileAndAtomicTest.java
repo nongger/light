@@ -2,6 +2,8 @@ package com.darren.fresh.concurrency;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicStampedReference;
 
 /**
  * * 一、volatile 关键字：当多个线程进行操作共享数据时，可以保证内存中的数据可见。
@@ -38,7 +40,62 @@ public class VolatileAndAtomicTest {
         // 测试可见性问题
 //        testVisible();
         // 不保证原子性测试
-        testAtomic();
+//        testAtomic();
+
+        // 基础的CAS操作只能保证一个共享变量的原子操作，且易引起ABA问题
+        // ABA问题演示及解决
+        // 原子引用
+        System.out.println("============ABA问题产生===========");
+        AtomicReference<Integer> atomicReference = new AtomicReference<>(100);
+        new Thread(() -> {
+            System.out.println(atomicReference.compareAndSet(100, 101));
+            System.out.println(atomicReference.compareAndSet(101, 100));
+        }, "t1").start();
+
+        new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                // 休眠让T1完成ABA操作
+            }
+            System.out.println(atomicReference.compareAndSet(100, 888));
+        }, "t2").start();
+
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            // 休眠让T1完成ABA操作
+        }
+
+        System.out.println("============ABA问题解决===========");
+        // 带时间戳的原子引用
+        AtomicStampedReference<Integer> atomicStampedReference = new AtomicStampedReference<>(100, 1);
+        new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                // 休眠让T1完成ABA操作
+            }
+            System.out.println(Thread.currentThread().getName() + ",第1次stamp:" + atomicStampedReference.getStamp());
+            System.out.println(atomicStampedReference.compareAndSet(100, 101, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + 1));
+            System.out.println(Thread.currentThread().getName() + ",第2次stamp:" + atomicStampedReference.getStamp());
+            System.out.println(atomicStampedReference.compareAndSet(101, 100, atomicStampedReference.getStamp(), atomicStampedReference.getStamp() + 1));
+            System.out.println(Thread.currentThread().getName() + ",第3次stamp:" + atomicStampedReference.getStamp());
+        }, "t3").start();
+
+        new Thread(() -> {
+            int stamp = atomicStampedReference.getStamp();
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                // 休眠让T1完成ABA操作
+            }
+            System.out.println(Thread.currentThread().getName() + ",stamp:" + stamp + ", now:" + atomicStampedReference.getStamp());
+
+            System.out.println(atomicStampedReference.compareAndSet(100, 888, stamp, stamp + 1));
+        }, "t4").start();
+
+
     }
 
     public static void testAtomic() {

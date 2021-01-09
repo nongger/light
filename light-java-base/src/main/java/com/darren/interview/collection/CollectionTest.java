@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  *  存储方式：1.顺序结构 2.链式存储
  *
- * 1.数据的存储的“容器”：①数组 int[] arr = new int[10]②集合
+ * 1.数据的存储的“容器”：①数组 int[] arr = new int[10] ②集合
  * 2.Collection:用来存储一个一个的数据
  * 		|-----Set:存储无序的、不可重复的数据--相当于高中的"集合"--“哈希算法”
  * 			|----HashSet:主要的实现类
@@ -67,9 +67,6 @@ public class CollectionTest {
         String cuid = String.format(customerOrderFormat, 12111, 454534231);
         System.out.println(cuid);
 
-        // RandomAccess支持随机访问
-        // int newCapacity = oldCapacity + (oldCapacity >> 1); 初始容量10
-        ArrayList<String> arrayList = new ArrayList<>();
 
     }
 
