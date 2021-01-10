@@ -19,12 +19,13 @@ public class CAS {
         System.out.println(share.incrementAndGet());
 
         /**
-         *  AtomicStampedReference类就提供了此种能力，其中的 compareAndSet方法就是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志，
-         *  如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值。
          *
          *  CAS 只对单个共享变量有效，当操作涉及跨多个共享变量时 CAS 无效。
          *  AtomicReference类来保证引用对象之间的原子性，你可以把多个变量放在一个对象里来进行 CAS 操作.
          *  所以我们可以使用锁或者利用AtomicReference类把多个共享变量合并成一个共享变量来操作。
+         *
+         *  AtomicStampedReference类就提供了此种能力，其中的 compareAndSet方法就是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志，
+         *  如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值。
          */
         // AtomicReference
     }
