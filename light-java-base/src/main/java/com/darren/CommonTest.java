@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -169,9 +170,11 @@ public class CommonTest {
     @Test
     public void bigDecimalTest() {
         //商品的外币金额 单位元
-        BigDecimal decimalAmount = new BigDecimal("0.00");
+        BigDecimal decimalAmount = new BigDecimal("60.00");
         BigDecimal bigDecimal1 = decimalAmount.movePointRight(2);
         System.out.println(bigDecimal1.toString());
+        BigDecimal bigDecimal2 = decimalAmount.movePointLeft(2).setScale(2, RoundingMode.HALF_UP);
+        System.out.println(bigDecimal2.toString());
         decimalAmount = decimalAmount.multiply(new BigDecimal(100));
         //单位分
         System.out.println(decimalAmount.intValue());

@@ -98,9 +98,12 @@ public class BaseType {
     @Test
     public void compare() {
         long a = 1L;
-        double b =0.2;
-        System.out.println(a>b);
-        System.out.println(a==b);
+        double b = 0.2;
+        long uid = 5031769805L;
+        long uid2 = 5031769805L;
+        System.out.println(uid == uid2);
+        System.out.println(a > b);
+        System.out.println(a == b);
 
     }
 
