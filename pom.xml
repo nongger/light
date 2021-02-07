@@ -11,6 +11,7 @@
         <module>light-common</module>
         <module>light-java-base</module>
         <module>light-benchmark</module>
+        <module>light-fast-web</module>
     </modules>
 
     <name>light</name>
