@@ -13,6 +13,13 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(value = "ResWrapperVO", description = "包装相应对象")
 public class ResWrapperVO<T> {
+    public ResWrapperVO() {
+    }
+
+    public ResWrapperVO(int errno, String msg) {
+        this.errno = errno;
+        this.msg = msg;
+    }
 
     public static ResWrapperVO createResponse() {
         return new ResWrapperVO();
@@ -38,21 +45,13 @@ public class ResWrapperVO<T> {
      * 错误码, 0为正确响应
      */
     @ApiModelProperty(value = "错误码, 0为正确响应",required = true)
-    private Long errno;
+    private int errno;
 
     /**
      * 错误信息，success为成功
      */
     @ApiModelProperty(value = "错误信息，success为成功",required = true)
     private String msg;
-
-    public String getShowMsg() {
-        return showMsg;
-    }
-
-    public void setShowMsg(String showMsg) {
-        this.showMsg = showMsg;
-    }
 
     /**
      * 错误信息，success为成功
@@ -65,11 +64,19 @@ public class ResWrapperVO<T> {
     @ApiModelProperty(value = "返回数据对象",required = true)
     private T data;
 
-    public Long getErrno() {
+    public String getShowMsg() {
+        return showMsg;
+    }
+
+    public void setShowMsg(String showMsg) {
+        this.showMsg = showMsg;
+    }
+
+    public int getErrno() {
         return errno;
     }
 
-    public void setErrno(Long errno) {
+    public void setErrno(int errno) {
         this.errno = errno;
     }
 

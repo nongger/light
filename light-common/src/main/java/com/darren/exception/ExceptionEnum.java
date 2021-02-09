@@ -10,36 +10,36 @@ package com.darren.exception;
 
 public enum ExceptionEnum {
 
-    SUCCESS(0L, "SUCCESS"),
-    SIGN_ERROR(8004010001L, "SIGN_ERROR"),
-    MISSING_PARAMS(8004010003L, "MISSING_PARAMS"),
-    INTERNAL_ERROR(8004010004L, "INTERNAL_ERROR"),
-    MISSING_TIMESTAMP(8004010005L, "MISSING_TIMESTAMP"),
-    AUTH_RESPONSE_FAIL(800401006L, "auth response fail", "账户异常，请重新登录"),
-    USER_NOT_LOGIN(800401007L, "user not login", "账户异常，请重新登录"),
-    USER_NOT_VALID(800401008L, "user not valid"),
+    SUCCESS(0, "SUCCESS"),
+    SIGN_ERROR(10001, "SIGN_ERROR"),
+    MISSING_PARAMS(10003, "MISSING_PARAMS"),
+    INTERNAL_ERROR(10004, "INTERNAL_ERROR"),
+    MISSING_TIMESTAMP(10005, "MISSING_TIMESTAMP"),
+    AUTH_RESPONSE_FAIL(10006, "auth response fail", "账户异常，请重新登录"),
+    USER_NOT_LOGIN(10007, "user not login", "账户异常，请重新登录"),
+    USER_NOT_VALID(10008, "user not valid"),
 
-    TIME_PARAM_ERROR(80040100010L, "time format error", "请求已过期"),
-    CHANNEL_REQUEST_ERROR(800401012L, "channel request failed"),
-    REQUEST_FREQUENTLY_ERROR(8004010015L, "request frequently"),
+    TIME_PARAM_ERROR(10010, "time format error", "请求已过期"),
+    CHANNEL_REQUEST_ERROR(10012, "channel request failed"),
+    REQUEST_FREQUENTLY_ERROR(10015, "request frequently"),
 
-    DEVICE_TYPE_NOT_SUPPORT(8004010100L, "not supported device"),
+    DEVICE_TYPE_NOT_SUPPORT(10100, "not supported device"),
 
     // DB 操作相关
-    DB_INSERT_FAILED(8004010512L, "db insert failed"),
-    DB_UPDATE_FAILED(8004010513L, "db update failed"),
+    DB_INSERT_FAILED(10512, "db insert failed"),
+    DB_UPDATE_FAILED(10513, "db update failed"),
 
 
     // 结尾符
-    END_FOR_QUOTE(8004010999L, "DO NOT MODIFY THIS LINE, NEVEL !!!"),
+    END_FOR_QUOTE(10999, "DO NOT MODIFY THIS LINE, NEVEL !!!"),
 
-    TEST_TIME_OUT_ERROR(8999999999L, "testTimeoutError!");//TODO
+    TEST_TIME_OUT_ERROR(99999, "testTimeoutError!");//TODO
 
 
     /**
      * 错误码
      */
-    private Long code;
+    private int code;
     /**
      * 错误信息
      */
@@ -47,17 +47,17 @@ public enum ExceptionEnum {
 
     private String showMsg;
 
-    ExceptionEnum(Long code, String msg) {
+    ExceptionEnum(int code, String msg) {
         this(code, msg, COMMON_SHOW_ERROR_MSG);
     }
 
-    ExceptionEnum(Long code, String msg, String showMsg) {
+    ExceptionEnum(int code, String msg, String showMsg) {
         this.code = code;
         this.msg = msg;
         this.showMsg = showMsg;
     }
 
-    public Long getCode() {
+    public int getCode() {
         return code;
     }
 

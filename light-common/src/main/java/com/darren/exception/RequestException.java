@@ -6,33 +6,33 @@ package com.darren.exception;
 public class RequestException extends RuntimeException {
 
 
-    public RequestException(Long code, String message) {
+    public RequestException(int code, String message) {
         super(message);
         this.code = code;
     }
 
-    public RequestException(Long code, String message, String showMsg) {
+    public RequestException(int code, String message, String showMsg) {
         super(message);
         this.code = code;
         this.showMsg = showMsg;
     }
 
-    public RequestException(Long code, String message, String showMsg, Object data) {
+    public RequestException(int code, String message, String showMsg, Object data) {
         super(message);
         this.code = code;
         this.showMsg = showMsg;
         this.data = data;
     }
 
-    public Long getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(Long code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
-    private Long code;
+    private int code;
 
     private String showMsg;
 
