@@ -35,7 +35,7 @@ public class ValidationDemoController {
 
     @RequestMapping("/get")
     public String get(@Validated(ValidatGroup.Create.class) String name) {
-        return "hello";
+        return "hello" + name;
     }
 
     @RequestMapping("/check")
