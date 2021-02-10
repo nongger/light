@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public enum TypeStatusEnum {
     RUNNING(0, "开始运行");
+
+
     private int status;
     private String desc;
 

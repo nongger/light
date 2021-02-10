@@ -11,7 +11,7 @@ import java.lang.annotation.*;
  * Time   : 2021-02-08 20:55
  * Author : Eric
  * Version: v1.0
- * Desc   :
+ * Desc   : 自定义注解-身份证校验
  */
 @Documented
 @Target({ElementType.PARAMETER, ElementType.FIELD})

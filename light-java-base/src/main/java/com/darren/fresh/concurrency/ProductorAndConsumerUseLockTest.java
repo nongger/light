@@ -61,7 +61,7 @@ class Clerk {
     public void sale() {//product = 0; 循环次数：0
         try {
             lock.lock();
-            while (product <= 0) {
+            while (product <= 0) { // 使用while方式虚假唤醒
                 System.out.println("缺货！");
 
                 try {
