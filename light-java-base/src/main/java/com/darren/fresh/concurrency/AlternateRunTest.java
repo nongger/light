@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 通过线程间通信，实现线程的交替执行
+ * 分组唤醒
  *
  * @author Darren
  * @date 2018/7/2 9:18

@@ -14,6 +14,10 @@ import java.util.concurrent.*;
  * Time   : 2018/7/4 9:53
  * Desc   :  *
  * 一、线程池：提供了一个线程队列，队列中保存着所有等待状态的线程。避免了创建与销毁额外开销，提高了响应的速度。
+ * 优点
+ * 1. 降低资源消耗（通过复用已创建的线程降低线程创建和销毁的开销）
+ * 2. 提高响应速度（任务不需要等待线程创建就能立即执行）
+ * 3. 提高线程可管理性（线程是稀缺资源，使用线程池进行统一分配方便，调优和监控）
  * <p>
  * 二、线程池的体系结构：
  * java.util.concurrent.Executor : 负责线程的使用与调度的根接口
@@ -34,13 +38,13 @@ import java.util.concurrent.*;
  * <p>
  * 线程池核心参数
  * public ThreadPoolExecutor(
- * int corePoolSize,// 核心线程数
- * int maximumPoolSize,// 最大线程数
- * long keepAliveTime,
- * TimeUnit unit,
- * BlockingQueue<Runnable> workQueue,
- * ThreadFactory threadFactory,
- * RejectedExecutionHandler handler)
+ *          int corePoolSize,// 核心线程数
+ *          int maximumPoolSize,// 最大线程数
+ *          long keepAliveTime,
+ *          TimeUnit unit,
+ *          BlockingQueue<Runnable> workQueue,
+ *          ThreadFactory threadFactory,
+ *          RejectedExecutionHandler handler)
  * <p>
  * keepAliveTime 当线程池中的线程数量大于corePoolSize的时候，如果这时没有新的任务提交，核心线程外的线程不会立即销毁，而是会等待，直到等待的时间超过了keepAliveTime；
  * unit  keepAliveTime参数的时间单位
@@ -48,10 +52,24 @@ import java.util.concurrent.*;
  * threadFactory 执行者创建新线程时使用的工厂
  * handler RejectedExecutionHandler类型的变量，表示线程池的饱和策略。如果阻塞队列满了并且没有空闲的线程，这时如果继续提交任务，就需要采取一种策略处理该任务。
  * 线程池提供了4种策略：
- * 1.AbortPolicy：直接抛出异常，这是默认策略；
- * 2.CallerRunsPolicy：用调用者所在的线程来执行任务；
- * 3.DiscardOldestPolicy：丢弃阻塞队列中靠最前的任务，并执行当前任务；
- * 4.DiscardPolicy：直接丢弃任务；
+ * 1. AbortPolicy：直接抛出异常，这是默认策略；
+ * 2. CallerRunsPolicy：用调用者所在的线程来执行任务；
+ * 3. DiscardOldestPolicy：丢弃阻塞队列中靠最前的任务，并执行当前任务；
+ * 4. DiscardPolicy：直接丢弃任务；
+ *
+ * 线程池大小设计：
+ * 1. CPU密集型
+ * 尽量使用较小的线程池，一般CPU核心数+1
+ *
+ * 因为CPU密集型任务CPU的使用率很高，若开过多的线程，只能增加线程上下文的切换次数，带来额外的开销
+ *
+ * 2. IO密集型
+ * 方法一：可以使用较大的线程池，一般CPU核心数 * 2
+ * IO密集型CPU使用率不高，可以让CPU等待IO的时候处理别的任务，充分利用cpu时间
+ *
+ * 方法二：
+ * CPU核数 / (1-阻塞系数)            阻塞系数范围 0.8~0.9
+ * 例如：8 / (1-0.9) = 80
  */
 
 
@@ -66,7 +84,7 @@ public class ThreadPoolTest {
                 3,
                 5L,
                 TimeUnit.SECONDS,
-                new LinkedBlockingDeque(3),
+                new LinkedBlockingQueue<>(3),
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.CallerRunsPolicy());
 
