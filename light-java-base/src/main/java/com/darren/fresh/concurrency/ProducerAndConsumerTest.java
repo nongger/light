@@ -7,11 +7,11 @@ package com.darren.fresh.concurrency;
  * Desc   : 生产者消费者案例-虚假唤醒
  * notifyAll和wait方法属于Object，线程被唤醒后从挂起处开始执行
  */
-public class ProductorAndConsumerTest {
+public class ProducerAndConsumerTest {
     // 单元测试不能测试线程问题
     public static void main(String[] args) {
         Clerk clerk = new Clerk();
-        Productor pro = new Productor(clerk);
+        Producer pro = new Producer(clerk);
         Consumer cus = new Consumer(clerk);
 
         new Thread(cus, "消费者 B").start();
@@ -61,10 +61,10 @@ class Clerk {
 }
 
 //生产者
-class Productor implements Runnable {
+class Producer implements Runnable {
     private Clerk clerk;
 
-    public Productor(Clerk clerk) {
+    public Producer(Clerk clerk) {
         this.clerk = clerk;
     }
 
