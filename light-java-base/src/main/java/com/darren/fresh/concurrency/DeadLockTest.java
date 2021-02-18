@@ -8,27 +8,27 @@ import java.util.concurrent.TimeUnit;
  * Author : liujingwei05
  * Version: v1.0
  * Desc   : 创造死锁条件，模拟排查过程
- * <p>
+ *
  * 死锁：多个线程因争夺资源导致的互相等待现象
- * <p>
+ *
  * jps -l
  * jstack 26211
- * <p>
+ *
  * 报告如下：
- * <p>
+ *
  * Java stack information for the threads listed above:
  * ===================================================
  * "BBB":
- * at com.darren.fresh.concurrency.DeadLockThread.run(DeadLockTest.java:31)
- * - waiting to lock <0x000000076addb368> (a java.lang.String)
- * - locked <0x000000076addb398> (a java.lang.String)
- * at java.lang.Thread.run(Thread.java:748)
+ *         at com.darren.fresh.concurrency.DeadLockThread.run(DeadLockTest.java:31)
+ *         - waiting to lock <0x000000076addb368> (a java.lang.String)
+ *         - locked <0x000000076addb398> (a java.lang.String)
+ *         at java.lang.Thread.run(Thread.java:748)
  * "AAA":
- * at com.darren.fresh.concurrency.DeadLockThread.run(DeadLockTest.java:31)
- * - waiting to lock <0x000000076addb398> (a java.lang.String)
- * - locked <0x000000076addb368> (a java.lang.String)
- * at java.lang.Thread.run(Thread.java:748)
- * <p>
+ *         at com.darren.fresh.concurrency.DeadLockThread.run(DeadLockTest.java:31)
+ *         - waiting to lock <0x000000076addb398> (a java.lang.String)
+ *         - locked <0x000000076addb368> (a java.lang.String)
+ *         at java.lang.Thread.run(Thread.java:748)
+ *
  * Found 1 deadlock.
  */
 class DeadLockThread implements Runnable {
