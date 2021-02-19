@@ -98,6 +98,10 @@ public class VolatileAndAtomicTest {
 
     }
 
+    /**
+     * 不保证原子性测试
+     * 加了volatile修饰多线程递增时仍出现错乱
+     */
     public static void testAtomic() {
         MyData data = new MyData();
 
@@ -163,6 +167,7 @@ class AtomicDemo implements Runnable {
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
+            //
         }
         System.out.println(getUniqueValue());
     }
