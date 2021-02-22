@@ -1,5 +1,5 @@
 
-###知识点速记
+### 知识点速记
 @Transactional是spring提供的事务管理的注解。它能保证方法内多个数据库操作要么同时成功、要么同时失败。
 
 @Transactional失效场景：  
@@ -11,14 +11,14 @@
 6.数据库引擎不支持，比如myisam引擎本身不支持事务  
 
 
-###事务类型 
+### 事务类型 
 事务管理主要分为编程式事务和声明式事务两种。  
 编程式事务：是指在代码中手动的管理事务的提交、回滚等操作，代码侵入性比较强，不多介绍。  
 声明式事务：基于AOP面向切面的，它将具体业务与事务处理部分解耦，代码侵入性很低，  
 所以在实际开发中声明式事务用的比较多。声明式事务也有两种实现方式，
 一是基于TX和AOP的xml配置文件方式，二种就是基于@Transactional 注解了。
 
-###1、@Transactional注解可以作用于哪些地方？
+### 1、@Transactional注解可以作用于哪些地方？
 
 @Transactional 可以作用在接口、类、类方法。
 
@@ -27,9 +27,9 @@
 作用于方法：当类配置了@Transactional，方法也配置了@Transactional，方法的事务会覆盖类的事务配置信息。  
 作用于接口：不推荐这种使用方法，因为一旦标注在Interface上并且配置了Spring AOP 使用CGLib动态代理，将会导致@Transactional注解失效
 
-###2、@Transactional注解有哪些属性？
+### 2、@Transactional注解有哪些属性？
 
-#####propagation属性
+##### propagation属性
 
 propagation 代表事务的传播行为，默认值为 Propagation.REQUIRED。
 
@@ -41,7 +41,7 @@ Propagation.NOT_SUPPORTED：以非事务的方式运行，如果当前存在事�
 Propagation.NEVER：以非事务的方式运行，如果当前存在事务，则抛出异常。  
 Propagation.NESTED ：和 Propagation.REQUIRED 效果一样。  
 
-#####isolation 属性
+##### isolation 属性
 
 isolation ：事务的隔离级别，默认值为 Isolation.DEFAULT。
 
@@ -51,22 +51,22 @@ TransactionDefinition.ISOLATION_READ_COMMITTED: 允许读取并发事务已经�
 TransactionDefinition.ISOLATION_REPEATABLE_READ: 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。  
 TransactionDefinition.ISOLATION_SERIALIZABLE: 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。  
 
-#####timeout 属性
+##### timeout 属性
 timeout ：事务的超时时间，默认值为 -1。如果超过该时间限制但事务还没有完成，则自动回滚事务。
 
-#####readOnly 属性
+##### readOnly 属性
 readOnly ：指定事务是否为只读事务，默认值为 false；为了忽略那些不需要事务的方法，比如读取数据，可以设置 read-only 为 true。
 
-#####rollbackFor 属性
+##### rollbackFor 属性
 rollbackFor ：用于指定能够触发事务回滚的异常类型，可以指定多个异常类型。
 
-#####noRollbackFor属性**
+##### noRollbackFor属性**
 noRollbackFor：抛出指定的异常类型，不回滚事务，也可以指定多个异常类型。
 
-###三、@Transactional失效场景
+### 三、@Transactional失效场景
 接下来我们结合具体的代码分析一下哪些场景下，@Transactional 注解会失效。
 
-####1、@Transactional 应用在非 public 修饰的方法上
+#### 1、@Transactional 应用在非 public 修饰的方法上
 
 如果Transactional注解应用在非public 修饰的方法上，Transactional将会失效。
 
@@ -85,7 +85,7 @@ protected TransactionAttribute computeTransactionAttribute(Method method,
 
 注意：protected、private 修饰的方法上使用 @Transactional 注解，虽然事务无效，但不会有任何报错，这是我们很容犯错的一点。
 
-####2、@Transactional 注解属性 propagation 设置错误
+#### 2、@Transactional 注解属性 propagation 设置错误
 
 这种失效是由于配置错误，若是错误的配置以下三种 propagation，事务将不会发生回滚。
 
@@ -95,7 +95,7 @@ TransactionDefinition.PROPAGATION_NOT_SUPPORTED：以非事务方式运行，如
 
 TransactionDefinition.PROPAGATION_NEVER：以非事务方式运行，如果当前存在事务，则抛出异常。
 
-####3、@Transactional  注解属性 rollbackFor 设置错误
+#### 3、@Transactional  注解属性 rollbackFor 设置错误
 
 rollbackFor 可以指定能够触发事务回滚的异常类型。Spring默认抛出了未检查unchecked异常（继承自 RuntimeException 的异常）或者 Error才回滚事务；其他异常不会触发回滚事务。如果在事务中抛出其他类型的异常，但却期望 Spring 能够回滚事务，就需要指定 rollbackFor属性。
 
@@ -117,7 +117,7 @@ return getDepth(exceptionClass.getSuperclass(), depth + 1);
 }
 ```
 
-####4、同一个类中方法调用，导致@Transactional失效
+#### 4、同一个类中方法调用，导致@Transactional失效
 
 开发中避免不了会对同一个类里面的方法调用，比如有一个类Test，它的一个方法A，A再调用本类的方法B（不论方法B是用public还是private修饰），但方法A没有声明注解事务，而B方法有。则外部调用方法A之后，方法B的事务是不会起作用的。这也是经常犯错误的一个地方。
 
@@ -150,7 +150,7 @@ return getDepth(exceptionClass.getSuperclass(), depth + 1);
     }
 ```
 
-####5、异常被你的 catch“吃了”导致@Transactional失效
+#### 5、异常被你的 catch“吃了”导致@Transactional失效
 
 这种情况是最常见的一种 @Transactional 注解失效场景，
 
@@ -186,7 +186,7 @@ spring的事务是在调用业务方法之前开始的，业务方法执行完�
 
 在业务方法中一般不需要catch异常，如果非要catch一定要抛出throw new RuntimeException()，或者注解中指定抛异常类型@Transactional(rollbackFor=Exception.class)，否则会导致事务失效，数据commit造成数据不一致，所以有些时候 try catch反倒会画蛇添足。
 
-####6、数据库引擎不支持事务
+#### 6、数据库引擎不支持事务
 
 这种情况出现的概率并不高，事务能否生效数据库引擎是否支持事务是关键。常用的MySQL数据库默认使用支持事务的innodb引擎。一旦数据库引擎切换成不支持事务的myisam，那事务就从根本上失效了。
 

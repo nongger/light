@@ -1,5 +1,7 @@
 package com.darren.interview.jvm;
 
+import sun.misc.VM;
+
 /**
  * Project: platform-goal
  * Author : Darren
@@ -74,6 +76,7 @@ public class ClassLoaderTest {
         long maxMemory = Runtime.getRuntime().maxMemory();
         System.out.println("虚拟机中内存总量：" + totalMemory + "（字节）、" + (totalMemory / 1024 / 1024) + " MB");
         System.out.println("虚拟机试图使用最大内存总量：" + maxMemory + "（字节）、" + (maxMemory / 1024 / 1024) + " MB");
+        System.out.println(VM.maxDirectMemory());
 
         // 制造OOM查看GC情况 启动参数配置：-Xms10m -Xmx10m -XX:+PrintCommandLineFlags -XX:+PrintGCDetails
         // 日志说明[GC类型 [young区：GC前young区内存占用->GC后young区内存占用（young区总大小）][old区……] GC前堆内存占用->GC后堆内存占用（JVM堆总大小）GC耗时]
