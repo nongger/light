@@ -1,5 +1,5 @@
 # light
-
+gitPage博客搭建官方文档：https://docsify.js.org/#/zh-cn/quickstart
 
 #### 项目介绍
 本项目供个人学习记录之用，摘录，截图，笔记
