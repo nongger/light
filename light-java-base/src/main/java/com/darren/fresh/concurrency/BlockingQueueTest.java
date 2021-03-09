@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class BlockingQueueTest {
 
     public static void main(String[] args) throws Exception {
-//        testBlockingQueueAPI();
+        testBlockingQueueAPI();
 
 
         // 不存储元素
@@ -62,6 +62,7 @@ public class BlockingQueueTest {
      */
     private static void testBlockingQueueAPI() throws InterruptedException {
         BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(3);
+        System.out.println(blockingQueue.size());
 
         // 队列满时抛异常
         System.out.println(blockingQueue.add("a"));
@@ -70,6 +71,7 @@ public class BlockingQueueTest {
 //        System.out.println(blockingQueue.add("d"));// java.lang.IllegalStateException
 
         // 检查头元素
+        System.out.println(blockingQueue.size());
         System.out.println("检查头元素" + blockingQueue.element());
 
         // 队列空时抛异常
