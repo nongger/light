@@ -75,5 +75,28 @@ public class StringTest {
         System.out.println(mtr.length() * 70000);
     }
 
+    /**
+     * 字符串intern方法，
+     * 如果字符串池已经包含此String对象的字符串，则返回池中的字符串。 否则，将此String对象添加到池中，并返回对此String对象的引用。
+     */
+    @Test
+    public void internTest() {
+        String stringIntern = new StringBuilder("hello").append("world").toString();
+        System.out.println(stringIntern);
+        System.out.println(stringIntern.intern());
+        System.out.println(stringIntern == stringIntern.intern());
+
+        /**
+         * "java"字符串的特殊性是由于jvm加载System时会调用initializeSystemClass()来进行初始化
+         * 方法中会调用sun.misc.Version.init()方法
+         * Version类中有基础常量包含了private static final String launcher_name = "java";
+         *
+         */
+        String javaString = new StringBuilder("ja").append("va").toString();
+        System.out.println(javaString);
+        System.out.println(javaString.intern());
+        System.out.println(javaString == javaString.intern());
+    }
+
 
 }

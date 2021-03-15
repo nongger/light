@@ -78,6 +78,7 @@ public class ClassLoaderTest {
         System.out.println("虚拟机试图使用最大内存总量：" + maxMemory + "（字节）、" + (maxMemory / 1024 / 1024) + " MB");
         System.out.println(VM.maxDirectMemory());
 
+        // -XX:+PrintGCDetails -XX:+PrintCommandLineFlags -Xms12m -Xmx12m -XX:SurvivorRatio=4 -XX:NewRatio=5 -Xmn2024
         // 制造OOM查看GC情况 启动参数配置：-Xms10m -Xmx10m -XX:+PrintCommandLineFlags -XX:+PrintGCDetails
         // 日志说明[GC类型 [young区：GC前young区内存占用->GC后young区内存占用（young区总大小）][old区……] GC前堆内存占用->GC后堆内存占用（JVM堆总大小）GC耗时]
         // [GC (Allocation Failure) [PSYoungGen: 503K->503K(2560K)] 895K->951K(9728K), 0.0006050 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
