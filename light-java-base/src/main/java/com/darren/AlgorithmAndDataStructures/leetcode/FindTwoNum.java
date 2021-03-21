@@ -36,9 +36,9 @@ public class FindTwoNum {
     public static int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> find = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            Integer integer = find.get(target - nums[i]);
-            if (integer != null) {
-                return new int[]{integer, i};
+            Integer partner = find.get(target - nums[i]);
+            if (partner != null) {
+                return new int[]{partner, i};
             }
             find.put(nums[i], i);
 

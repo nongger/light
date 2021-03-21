@@ -66,8 +66,25 @@ jinfo -flags 18240
 日志说明[GC类型 [young区：GC前young区内存占用->GC后young区内存占用（young区总大小）][old区……] GC前堆内存占用->GC后堆内存占用（JVM堆总大小）GC耗时]  
 [GC (Allocation Failure) [PSYoungGen: 503K->503K(2560K)] 895K->951K(9728K), 0.0006050 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]  
 [Full GC (Allocation Failure) [PSYoungGen: 503K->0K(2560K)] [ParOldGen: 448K->713K(7168K)] 951K->713K(9728K), [Metaspace: 2996K->2996K(1056768K)], 0.0047257 secs] [Times: user=0.02 sys=0.00, real=0.00 secs]  
-
 ```
+
+## GC收集器
+GC算法是方法论（引用计数、复制、标记清除、标记整理），垃圾收集器是落地实现（serial、parallel、CMS、G1、ZGC）  
+serial：使用一个县城进行垃圾回收，此时暂停所有用户线程，不适合服务端   
+parallel：多个线程并行进行垃圾回收，此时暂停所有用户线程，适合若交互的场景   
+CMS：用户线程和垃圾回收线程同时执行（可能并行，可能交替），不需要停顿用户线程。适合对响应时间有要求的场景，互联网用的多   
+G1：分割成不同的区域进行并发收集
+
+### CMS（concurrent Mark Sweep）
+-XX:+UseConcMarkSweepGC 开启CMS （使用ParNewGC+CMS+serial Old（兜底））
+* 初始标记  STW
+* 并发标记
+* 重新标记  STW
+* 并发清除  
+优点：并发收集停顿低  
+缺点：会产生内存碎片、并发执行对CPU压力大  
+CMS必须在老年代堆内存耗尽前完成垃圾回收，否则触发兜底机制serial old即full GC进行内存整理
+
 
 ## 引用的强、软、弱、虚
 * 强引用：只要某个对象有强引用与之关联，这个对象永远不会被回收，即使内存不足，JVM宁愿抛出OOM，也不会去回收。
