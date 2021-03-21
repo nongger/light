@@ -65,3 +65,11 @@ ReentrantLock内部调用NonfairSync的lock方法
     }
 ```
 acquire尝试获取锁流程  
+``` 
+public final void acquire(int arg) {
+    // 尝试获取锁
+    if (!tryAcquire(arg) &&
+        acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+        selfInterrupt();
+}
+```
