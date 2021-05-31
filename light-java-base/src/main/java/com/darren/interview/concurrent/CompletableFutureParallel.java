@@ -22,7 +22,26 @@ public class CompletableFutureParallel {
     protected final static ExecutorService THREAD_POOL =
             new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<>(QUEUE_SIZE));
 
-    public static void main(String[] args) throws InterruptedException, ExecutionException, TimeoutException {
+    public static void main(String[] args) throws Exception {
+        CompletableFuture<String>[] completableFuture = new CompletableFuture[10];
+        for (int i = 0; i < 10; i++) {
+            completableFuture[i] = CompletableFuture.supplyAsync(() -> {
+                return Thread.currentThread().getName();
+            }, THREAD_POOL);
+        }
+
+        List<String> ret = new ArrayList<>();
+        for (CompletableFuture<String> future : completableFuture) {
+            ret.add(future.get());
+        }
+
+        System.out.println(String.join(",", ret));
+
+
+//        runAsync();
+    }
+
+    public static void runAsync() throws InterruptedException, ExecutionException, TimeoutException {
         OrderInfo orderInfo = new OrderInfo();
         //CompletableFuture 的List
         List<CompletableFuture> futures = new ArrayList<>();
@@ -75,7 +94,7 @@ public class CompletableFutureParallel {
         try {
             System.out.println("阻塞等待返回值");
             System.out.println(completableFuture.get());
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

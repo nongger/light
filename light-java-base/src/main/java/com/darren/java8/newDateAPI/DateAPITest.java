@@ -127,7 +127,8 @@ public class DateAPITest {
     public void dateFormat() {
 
         LocalDate localDate = LocalDate.now().minusDays(1);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd000000");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy年MMdd000000");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMdd000000");
 
         LocalDate end = localDate.plusDays(1);
         System.out.println(dateTimeFormatter.format(localDate));

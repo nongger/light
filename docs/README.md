@@ -6,7 +6,7 @@ gitPage博客搭建官方文档：https://docsify.js.org/#/zh-cn/quickstart
 
 #### 软件架构
 软件架构说明
-
+![jjj](https://p0.meituan.net/groceryimages/f553d58a32829719a8a81098b23894d924872.png)
 
 #### 安装教程
 
